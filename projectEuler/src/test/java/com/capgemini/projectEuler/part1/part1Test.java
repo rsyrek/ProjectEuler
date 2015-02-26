@@ -73,4 +73,14 @@ public class part1Test {
 	public void shouldReturn17WhenGiven10(){
 		Assertions.assertThat(mult.primesSumBelow(10)).isEqualTo(17);
 	}
+	
+	@Test
+	public void shouldReturn142913828922WhenGiven2M(){
+		Assertions.assertThat(mult.primesSumBelow(2000000)).isEqualTo(142913828922L);
+	}
+	
+	@Test
+	public void shouldReturn28WhenGiven5(){
+		Assertions.assertThat(mult.triangleToHaveMoreDivThan(5)).isEqualTo(28);
+	}
 }

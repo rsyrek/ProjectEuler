@@ -124,10 +124,43 @@ public class projectEuler {
 		return product;
 	}
 
-	public long primesSumBelow(long i) {
-		long sum = 0;
-		// TODO Auto-generated method stub
+	public long primesSumBelow(long limit) {
+		long sum = 2;
+		for(int i = 3; i < limit; i++){
+			if(isPrime(i)){
+				sum += i;
+			}
+		}
 		return sum;
+	}
+
+	public long triangleToHaveMoreDivThan(long limit) {
+		long triangle = 1;
+		long index = 2;
+		List<Long> list = new ArrayList<Long>();
+		while(list.size() < limit){
+			triangle = triangle + index++;
+			list = findFactorsOf(triangle);
+		}
+		return triangle;
+	}
+
+	private List<Long> findFactorsOf(long number) {
+		List<Long> list = new ArrayList<Long>();
+		long befor = 0, actual = 1, index = 2;
+		list.add(actual);
+		while(index < 5){
+			actual = number % index;
+			if(actual == 0){
+				if(number / index == befor) break;
+				befor = index;
+				list.add(index);
+				list.add(number / index);
+			}
+			index++;
+			System.out.println(index);
+		}
+		return list;
 	}
 
 	/*public int largestPalindrome(int digits) {
