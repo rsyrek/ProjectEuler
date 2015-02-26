@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +93,6 @@ public class projectEuler {
 			file = new FileInputStream("C:/Users/rsyrek/Documents/GitHub/ProjectEuler/projectEuler/input.txt");
 			System.out.println("Wczytuje");
 			while(i < 1000){
-				//list.add(file.read());
 				list.add(Integer.parseInt("" + ((char)file.read())));
 				System.out.println(i);
 				i++;
@@ -117,13 +117,17 @@ public class projectEuler {
 				temp *= list.get(j + k);
 				if(product < temp) product = temp;
 			}
-			//temp /= list.get(j);
-			//temp *= list.get(j + numbers);
 			if(product < temp) {
 				product = temp;
 			}
 		}
 		return product;
+	}
+
+	public long primesSumBelow(long i) {
+		long sum = 0;
+		// TODO Auto-generated method stub
+		return sum;
 	}
 
 	/*public int largestPalindrome(int digits) {

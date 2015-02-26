@@ -68,4 +68,9 @@ public class part1Test {
 	public void shouldReturn5832WhenGiven13(){
 		Assertions.assertThat(mult.greatestProductOfAdjacent(13)).isEqualTo(23514624000L);
 	}
+	
+	@Test
+	public void shouldReturn17WhenGiven10(){
+		Assertions.assertThat(mult.primesSumBelow(10)).isEqualTo(17);
+	}
 }
