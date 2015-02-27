@@ -91,27 +91,21 @@ public class projectEuler {
 		InputStream file = null;
 		try {
 			file = new FileInputStream("C:/Users/rsyrek/Documents/GitHub/ProjectEuler/projectEuler/input.txt");
-			System.out.println("Wczytuje");
 			while(i < 1000){
 				list.add(Integer.parseInt("" + ((char)file.read())));
-				System.out.println(i);
 				i++;
 			}
-			System.out.println("Wczytuje");
 			file.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Wczytalem");
 		for(int j = 0; j < numbers; j++){
 			temp *= list.get(j);
 			if(product < temp) product = temp;
 		}
-		System.out.println("size: " + list.size());
 		for(int j = 0; j < list.size() - numbers; j++){
-			System.out.println("for: " + j);
 			temp = 1;
 			for(int k = 0; k < numbers; k++){
 				temp *= list.get(j + k);
@@ -158,54 +152,62 @@ public class projectEuler {
 				list.add(number / index);
 			}
 			index++;
-			System.out.println(index);
 		}
 		return list;
 	}
 
-	/*public int largestPalindrome(int digits) {
-		int palindrome = 0, number, multipleOne, multipleTwo;
-		String temp = new String("");
-		String norm = new String("");
-		String reverse = new String("");
-		String part1 = new String("");
-		String part2 = new String("");
-		boolean same = false;
-		boolean checked = false;
-		for(int i = 0; i < digits; i++){
+	public int largestPalindrome(int digits) {
+		int palindrome = 0;
+		String temp = new String();
+		int downLimit;
+		int upperLimit;
+		int part1;
+		temp = "1";
+		for(int j = 0; j < digits - 1; j++){
+			temp += "0";
+		}
+		downLimit = Integer.parseInt(temp);
+		temp += "0";
+		upperLimit = downLimit * 10;
+		temp = "";
+		for(int j = 0; j < digits; j++){
 			temp += "9";
 		}
-		number = Integer.parseInt(temp);
-		number *= number;
-		
-		norm = Integer.toString(number);
-		for(int k = 0; k < norm.length() / 2; k++){
-			part1 += norm.charAt(k);
-		}
-		part2 = new StringBuilder(part1).reverse().toString();
-		norm = part1 + part2;
-		multipleOne = Integer.parseInt(norm);
-		if ()
-		while(!same){
-			
-			norm = Integer.toString(number);
-			reverse = new StringBuilder(norm).reverse().toString();
-			if(norm.equals(reverse)){
-				same = true;
+		part1 = Integer.parseInt(temp);
+		int whole;
+		String number = new String();
+		boolean done = false;
+		while(!done){
+			number = Integer.toString(part1) + new StringBuilder(Integer.toString(part1)).reverse().toString();
+			whole = Integer.parseInt(number);
+			for(int i = downLimit; i < upperLimit; i++){
+				if(whole % i == 0 && whole / i < upperLimit){
+					done = true;
+					palindrome = whole;
+					break;
+				}
 			}
+			part1--;
 		}
-		
-		for(int j = 999; j >= 100; j--){
-			multipleTwo = number / j;
-			if(j * multipleTwo == number){
-				checked = true;
-				palindrome = number;
+		return palindrome;
+	}
+
+	public long smallestNumberDividedBy1To(int to) {
+		long number = 0;
+		boolean done = true;
+		while(true){
+			done = true;
+			for(int i = to; i > (to / 2); i--){
+				if(number == 0 || !(number % i == 0)){
+					done = false;
+					break;
+				}
+			}
+			if(done){
 				break;
 			}
+			number += to * (to - 1);
 		}
-
-		return palindrome;
-	}*/
-	
-	
+		return number;
+	}
 }

@@ -34,10 +34,25 @@ public class part1Test {
 		Assertions.assertThat(mult.largestPrimeFactor(600851475143L)).isEqualTo(6857);
 	}
 	
-	/*@Test
+	@Test
 	public void shouldReturn9009WhenGiven2(){
 		Assertions.assertThat(mult.largestPalindrome(2)).isEqualTo(9009);
-	}*/
+	}
+	
+	@Test
+	public void shouldReturn906609WhenGiven3(){
+		Assertions.assertThat(mult.largestPalindrome(3)).isEqualTo(906609);
+	}
+	
+	@Test
+	public void shouldReturn2520WhenGiven1And10(){
+		Assertions.assertThat(mult.smallestNumberDividedBy1To(10)).isEqualTo(2520);
+	}
+	
+	@Test
+	public void shouldReturn232792560WhenGiven1And20(){
+		Assertions.assertThat(mult.smallestNumberDividedBy1To(20)).isEqualTo(232792560);
+	}
 	
 	@Test 
 	public void shouldReturn2640WhenGiven10(){
