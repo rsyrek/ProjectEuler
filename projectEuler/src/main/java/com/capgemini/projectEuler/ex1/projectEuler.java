@@ -1,10 +1,11 @@
 package com.capgemini.projectEuler.ex1;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,6 @@ public class projectEuler {
 	}
 
 	public int primeNumber(int position) {
-		int prime = 0;
 		int index = 1;
 		int actual = 3;
 		while(index < position){
@@ -90,7 +90,7 @@ public class projectEuler {
 		List<Integer> list = new ArrayList<Integer>();
 		InputStream file = null;
 		try {
-			file = new FileInputStream("C:/Users/rsyrek/Documents/GitHub/ProjectEuler/projectEuler/input.txt");
+			file = new FileInputStream(projectEuler.class.getClassLoader().getResource("input.txt").getPath());
 			while(i < 1000){
 				list.add(Integer.parseInt("" + ((char)file.read())));
 				i++;
@@ -209,5 +209,69 @@ public class projectEuler {
 			number += to * (to - 1);
 		}
 		return number;
+	}
+
+	public long largestProductInGrid(int limit) throws IOException {
+		long product = 0;
+		long tempProduct;
+		int index;
+		String[] numbersString;
+		//int[] numbers = new int[20];// = new Integer[20];
+		List<int[]> listOfNumber = new ArrayList<int[]>();
+		try(BufferedReader br = new BufferedReader(new FileReader(projectEuler.class.getClassLoader().getResource("problem11.txt").getFile()))) {
+			String line = br.readLine();
+			//System.err.println("Start");
+			while(line !=null) {
+				int[] numbers = new int[20];
+				numbersString = line.split(" ");
+				index = 0;
+				for(String s : numbersString){
+					numbers[index++] = Integer.parseInt(s);
+				}
+				listOfNumber.add(listOfNumber.size(), numbers);
+				line = br.readLine();
+			}
+		}
+		for(int j = 0; j < listOfNumber.size(); j++){
+			for(int i = 0; i < 20 - limit + 1; i++){
+				tempProduct = 1;
+				for(int k = 0; k < limit; k++){
+					tempProduct *= listOfNumber.get(j)[i + k];
+				}
+				if(tempProduct > product) product = tempProduct;
+			}
+		}
+		for(int j = 0; j < 20; j++){
+			for(int i = 0; i < listOfNumber.size() - limit + 1; i++){
+				tempProduct = 1;
+				for(int k = 0; k < limit; k++){
+					tempProduct *= listOfNumber.get(i + k)[j];
+				}
+				if(tempProduct > product) product = tempProduct;
+			}
+		}
+		for(int i = 0; i < listOfNumber.size() - limit; i++){
+			for(int j = 0; j < 20 - limit; j++){
+				tempProduct = 1;
+				for(int k = 0; k < limit; k++){
+					tempProduct = tempProduct * listOfNumber.get(i + k)[j + k];
+				}
+				if(tempProduct > product) {
+					System.out.println("i: " + i + " j: " + j);
+					product = tempProduct;
+				}
+				
+			}
+		}
+		for(int j = 0; j < 20 - limit; j++){
+			for(int i = limit - 1; i < listOfNumber.size(); i++){
+				tempProduct = 1;
+				for(int k = 0; k < limit; k++){
+					tempProduct *= listOfNumber.get(i - k)[j + k];
+				}
+				if(tempProduct > product) product = tempProduct;
+			}
+		}
+		return product;
 	}
 }

@@ -1,5 +1,7 @@
 package com.capgemini.projectEuler.part1;
 
+import java.io.IOException;
+
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
@@ -97,5 +99,10 @@ public class part1Test {
 	@Test
 	public void shouldReturn28WhenGiven5(){
 		Assertions.assertThat(mult.triangleToHaveMoreDivThan(5)).isEqualTo(28);
+	}
+	
+	@Test
+	public void shouldReturn70600674WhenGiven4() throws IOException{
+		Assertions.assertThat(mult.largestProductInGrid(4)).isEqualTo(70600674);
 	}
 }
