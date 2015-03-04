@@ -1,6 +1,8 @@
 package com.capgemini.projectEuler.part1;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.fest.assertions.Assertions;
 import org.junit.Test;
@@ -97,12 +99,72 @@ public class part1Test {
 	}
 	
 	@Test
+	public void shouldReturn70600674WhenGiven4() throws IOException{
+		Assertions.assertThat(mult.largestProductInGrid(4)).isEqualTo(70600674);
+	}
+	
+	@Test
 	public void shouldReturn28WhenGiven5(){
 		Assertions.assertThat(mult.triangleToHaveMoreDivThan(5)).isEqualTo(28);
 	}
 	
 	@Test
-	public void shouldReturn70600674WhenGiven4() throws IOException{
-		Assertions.assertThat(mult.largestProductInGrid(4)).isEqualTo(70600674);
+	public void shouldReturn76576500WhenGiven500(){
+		Assertions.assertThat(mult.triangleToHaveMoreDivThan(500)).isEqualTo(76576500);
+	}
+	
+	@Test
+	public void shouldReturn5537376230WhenGiven10() throws IOException{
+		Assertions.assertThat(mult.sumOf100BigNumbers(10)).isEqualTo(new char[]{'5','5','3','7','3','7','6','2','3','0'});
+	}
+	
+	@Test
+	public void shouldReturn837799WhenGiven1M(){
+		Assertions.assertThat(mult.startingOfLongestChainUnder(1000000)).isEqualTo(837799);
+	}
+	
+	@Test
+	public void shouldReturn6WhenGiven2(){
+		Assertions.assertThat(mult.numberOfWays(2, 0, 0)).isEqualTo(6);
+	}
+	
+	/*@Test
+	public void shouldReturn6WhenGiven20(){
+		Assertions.assertThat(mult.numberOfWays(20, 0, 0)).isEqualTo(6);
+	}*/
+	
+	@Test
+	public void shouldReturn26whenGiven15(){
+		Assertions.assertThat(mult.powerDigitSum(15)).isEqualTo(26);
+	}
+	
+	@Test
+	public void shouldReturn19WhenGiven5(){
+		Assertions.assertThat(mult.lettersInNumbers(1000)).isEqualTo(21124);
+	}
+	
+	@Test
+	public void shouldReturn23WhenGiven4RowTriangle() throws FileNotFoundException, IOException{
+		Assertions.assertThat(mult.maxPathSum("triangle1.txt")).isEqualTo(23);
+	}
+	
+	@Test
+	public void shouldReturn1074WhenGiven15RowTriangle() throws FileNotFoundException, IOException{
+		Assertions.assertThat(mult.maxPathSum("triangle2.txt")).isEqualTo(1074);
+	}
+	
+	@Test
+	public void shouldReturn7273WhenGiven100RowTriangle() throws FileNotFoundException, IOException{
+		Assertions.assertThat(mult.maxPathSum("p067_triangle.txt")).isEqualTo(7273);
+	}
+	
+	@Test
+	public void shouldReturn27WhenGiven10(){
+		Assertions.assertThat(mult.factorialDigitSum(10)).isEqualTo(27);
+	}
+	
+	@Test
+	public void shouldReturn648WhenGiven100(){
+		Assertions.assertThat(mult.factorialDigitSum(100)).isEqualTo(648);
 	}
 }

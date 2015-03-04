@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,34 +129,6 @@ public class projectEuler {
 		return sum;
 	}
 
-	public long triangleToHaveMoreDivThan(long limit) {
-		long triangle = 1;
-		long index = 2;
-		List<Long> list = new ArrayList<Long>();
-		while(list.size() < limit){
-			triangle = triangle + index++;
-			list = findFactorsOf(triangle);
-		}
-		return triangle;
-	}
-
-	private List<Long> findFactorsOf(long number) {
-		List<Long> list = new ArrayList<Long>();
-		long befor = 0, actual = 1, index = 2;
-		list.add(actual);
-		while(index < 5){
-			actual = number % index;
-			if(actual == 0){
-				if(number / index == befor) break;
-				befor = index;
-				list.add(index);
-				list.add(number / index);
-			}
-			index++;
-		}
-		return list;
-	}
-
 	public int largestPalindrome(int digits) {
 		int palindrome = 0;
 		String temp = new String();
@@ -216,11 +189,9 @@ public class projectEuler {
 		long tempProduct;
 		int index;
 		String[] numbersString;
-		//int[] numbers = new int[20];// = new Integer[20];
 		List<int[]> listOfNumber = new ArrayList<int[]>();
 		try(BufferedReader br = new BufferedReader(new FileReader(projectEuler.class.getClassLoader().getResource("problem11.txt").getFile()))) {
 			String line = br.readLine();
-			//System.err.println("Start");
 			while(line !=null) {
 				int[] numbers = new int[20];
 				numbersString = line.split(" ");
@@ -257,7 +228,6 @@ public class projectEuler {
 					tempProduct = tempProduct * listOfNumber.get(i + k)[j + k];
 				}
 				if(tempProduct > product) {
-					System.out.println("i: " + i + " j: " + j);
 					product = tempProduct;
 				}
 				
@@ -273,5 +243,156 @@ public class projectEuler {
 			}
 		}
 		return product;
+	}
+	
+	public long triangleToHaveMoreDivThan(long limit) {
+		long triangle = 1;
+		long index = 2;
+		long size = 0;
+		while(size < limit){
+			triangle = triangle + index++;
+			size = findFactorsOf(triangle);
+		}
+		return triangle;
+	}
+
+	private long findFactorsOf(long number) {
+		List<Long> list = new ArrayList<Long>();
+		long befor = 1, actual = 1, index = 2;
+		list.add(actual);
+		while(true){
+			actual = number % index;
+			if(actual == 0){
+				if(number / index == befor) break;
+				befor = index;
+				list.add(index);
+				if ((number / index) == index) break;
+				else list.add(number / index);
+			}
+			index++;
+		}
+		return list.size();
+	}
+
+	public char[] sumOf100BigNumbers(long digits) throws IOException {
+		BigDecimal tempResult = new BigDecimal(0);
+		int index = 0;
+		String allDigits;
+		char[] firstDigits = new char[(int) digits];
+		BigDecimal[] numbers = new BigDecimal[100];
+		try(BufferedReader br = new BufferedReader(new FileReader(projectEuler.class.getClassLoader().getResource("problem13.txt").getFile()))) {
+			String line = br.readLine();
+			while(line !=null) {
+				numbers[index++] = new BigDecimal(line);
+				line = br.readLine();
+			}
+			for(BigDecimal n : numbers){
+				tempResult = tempResult.add(n);
+			}
+			allDigits = String.valueOf(tempResult);
+			for(int i = 0; i < digits; i++){
+				firstDigits[i] = allDigits.charAt(i);
+			}
+		}
+		return firstDigits;
+	}
+
+	public int startingOfLongestChainUnder(int limit) {
+		int result = 0, longestChain = 0;
+		int index;
+		long actual;
+		for(int number = 2; number < 1000000; number++){
+			index = 0;
+			actual = number;
+			while(actual != 1){
+				if(actual % 2 == 0) actual /= 2;
+				else actual = 3 * actual + 1;
+				index++;
+			}
+			if(index > longestChain){
+				longestChain = index;
+				result = number;
+			}
+		}
+		return result;
+	}
+
+	public static long ways = 0;
+	public static int where = 0;
+	
+	public long numberOfWays(int grid, int posX, int posY) {
+		where++;
+		if(posX == grid && posY == grid) ways++;
+		if(posX < grid) ways = numberOfWays(grid, posX + 1, posY);
+		if(posY < grid) ways = numberOfWays(grid, posX, posY + 1);
+		where--;
+		return ways;
+	}
+
+	public double powerDigitSum(int power) {
+		Double sum = new Double(0);
+		Double powResult = new Double(2);
+		String result;
+		powResult = Math.pow(powResult, power);
+		result = powResult.toString();
+		for(char c : result.toCharArray()){
+			if(c != '.')
+			sum += Double.parseDouble(c + "");
+		}
+		return sum;
+	}
+
+	public long lettersInNumbers(int limit) {
+		int result = 0;
+		WordNumber wordNumber = new WordNumber();
+		for(int i = 1; i <= limit; i++){
+			result += wordNumber.numberToWord(i);
+		}
+		if(limit == 1000) {
+			result += wordNumber.numberToWord(1) + wordNumber.thousand;
+			}
+		return result;
+	}
+
+	public int maxPathSum(String fileName) throws FileNotFoundException, IOException {
+		int sum = 0, index, size = 1;
+		String[] numbersString;
+		List<int[]> listOfNumber = new ArrayList<int[]>();
+		try(BufferedReader br = new BufferedReader(new FileReader(projectEuler.class.getClassLoader().getResource(fileName).getFile()))) {
+			String line = br.readLine();
+			while(line !=null) {
+				index = 0;
+				int[] numbers = new int[size++];
+				numbersString = line.split(" ");
+				for(String s : numbersString){
+					numbers[index++] = Integer.parseInt(s);
+				}
+				listOfNumber.add(listOfNumber.size(), numbers);
+				line = br.readLine();
+			}
+			for(int i = listOfNumber.size() - 2; i >= 0; i--){
+				index = 0;
+				for(int j = 0; j < listOfNumber.get(i).length; j++){
+					listOfNumber.get(i)[j] += Math.max(listOfNumber.get(i + 1)[j], listOfNumber.get(i + 1)[j + 1]);
+				}
+			}
+			sum = listOfNumber.get(0)[0];
+		}
+		return sum;
+	}
+
+	public int factorialDigitSum(int limit) {
+		BigDecimal result = new BigDecimal(1);
+		int answer = 0;
+		char[] numbers;
+		while(limit > 0){
+			result = result.multiply(new BigDecimal(limit--));
+		}
+		//System.out.println("wynik: " + result);
+		numbers = result.toString().toCharArray();
+		for(char n : numbers){
+			answer += Integer.parseInt("" + n);
+		}
+		return answer;
 	}
 }
