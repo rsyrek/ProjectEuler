@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 
@@ -317,27 +320,34 @@ public class projectEuler {
 		return result;
 	}
 
-	public static long ways = 0;
-	public static int where = 0;
-	
 	public long numberOfWays(int grid, int posX, int posY) {
-		where++;
-		if(posX == grid && posY == grid) ways++;
+		long ways = 0;
+		long n = 1;
+		long k = 1;
+		long n_k = 1;
+		for(int i = 1; i <= 2 * grid; i++){
+			n *= i;
+		}
+		for(int i = 1; i <= grid; i++){
+			k *= i;
+			n_k *= i;
+		}
+		k *= n_k;
+		ways = n/k;
+		/*if(posX == grid && posY == grid) ways++;
 		if(posX < grid) ways = numberOfWays(grid, posX + 1, posY);
-		if(posY < grid) ways = numberOfWays(grid, posX, posY + 1);
-		where--;
+		if(posY < grid) ways = numberOfWays(grid, posX, posY + 1);*/
 		return ways;
 	}
 
-	public double powerDigitSum(int power) {
-		Double sum = new Double(0);
-		Double powResult = new Double(2);
+	public int powerDigitSum(int power) {
+		BigDecimal powResult = new BigDecimal(2);
+		int sum = 0;
 		String result;
-		powResult = Math.pow(powResult, power);
+		powResult = powResult.pow(power);
 		result = powResult.toString();
 		for(char c : result.toCharArray()){
-			if(c != '.')
-			sum += Double.parseDouble(c + "");
+			sum += Integer.parseInt(c + "");
 		}
 		return sum;
 	}
@@ -395,4 +405,104 @@ public class projectEuler {
 		}
 		return answer;
 	}
+
+	public long sumOfAmicableNumbersBelow(int limit){
+		long sum = 0;
+		List<Integer> unchecked = new ArrayList<Integer>(3);
+		long factors = 0;
+		for(int i = 4; i <= limit; i++){
+			unchecked.add(i);
+		}
+		for(Integer n : unchecked){
+			factors=sumFactorsOf(n);
+			if(factors != n && factors != 1 && sumFactorsOf(factors) == n){
+				sum += (factors + n);
+			}
+		}
+		return sum / 2;
+	}
+	
+	private long sumFactorsOf(long number){
+		
+		List<Long> list = new ArrayList<Long>();
+		long befor = 1, actual = 1, index = 2, sum = 0;
+		list.add(actual);
+		while(true){
+			actual = number % index;
+			if(actual == 0){
+				if(number / index == befor) break;
+				befor = index;
+				list.add(index);
+				if ((number / index) == index) break;
+				else list.add(number / index);
+			}
+			index++;
+		}
+		for( long n : list){
+			sum += n;
+		}
+		return sum;
+	}
+
+	public long namesScore(String fileName) throws FileNotFoundException, IOException {
+		long sum = 0;
+		int index = 1;
+		int score = 0;
+		String[] namesArray;
+		List<String> listOfNames = new ArrayList<String>();
+		try(BufferedReader br = new BufferedReader(new FileReader(projectEuler.class.getClassLoader().getResource(fileName).getFile()))) {
+			String line = br.readLine();
+			namesArray = line.split("\",");
+			for(String s : namesArray){
+				listOfNames.add(s);
+			}
+			Collections.sort(listOfNames);
+			for(String s : listOfNames){
+				score = 0;
+				for(char c : s.toCharArray()){
+					if(c != '\"')
+					score += (Character.getNumericValue(c) - 9);
+				}
+				score *= index++;
+				sum += score;
+			}
+		}
+		return sum;
+	}
+	
+	public int fibonacciBig(int n) {
+    	BigDecimal a = new BigDecimal(0);
+    	BigDecimal b = new BigDecimal(1);
+    	int index = 1;
+    	while(b.toString().length() < 1000){
+    		index++;
+    		b = b.add(a);
+    		a = b.add(a.negate());
+    	}
+    	return index;
+    }
+
+	
+	public long nonAbundantSums(int limit) {
+		long sum = 0;
+		List<Integer> abundants = new ArrayList<Integer>();
+		for(int i = 12; i <= limit; i++){
+			if(sumFactorsOf(i) > i){
+				abundants.add(i);
+			}
+		}
+		boolean[] array = new boolean[limit];
+		for(int n : abundants){
+			for(int m : abundants){
+				if(n + m < limit){
+					array[n + m] = true;
+				}
+			}
+		}
+		for(int i = 0; i < array.length; i++){
+			if(!array[i]) sum += (i);
+		}
+		return sum;
+	}
+	
 }

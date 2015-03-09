@@ -2,8 +2,6 @@ package com.capgemini.projectEuler.part1;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
@@ -128,14 +126,19 @@ public class part1Test {
 		Assertions.assertThat(mult.numberOfWays(2, 0, 0)).isEqualTo(6);
 	}
 	
-	/*@Test
+	@Test
 	public void shouldReturn6WhenGiven20(){
-		Assertions.assertThat(mult.numberOfWays(20, 0, 0)).isEqualTo(6);
-	}*/
+		Assertions.assertThat(mult.numberOfWays(20, 0, 0)).isEqualTo(137846528820L);
+	}
 	
 	@Test
 	public void shouldReturn26whenGiven15(){
 		Assertions.assertThat(mult.powerDigitSum(15)).isEqualTo(26);
+	}
+	
+	@Test
+	public void shouldReturn1366whenGiven1000(){
+		Assertions.assertThat(mult.powerDigitSum(1000)).isEqualTo(1366);
 	}
 	
 	@Test
@@ -167,4 +170,26 @@ public class part1Test {
 	public void shouldReturn648WhenGiven100(){
 		Assertions.assertThat(mult.factorialDigitSum(100)).isEqualTo(648);
 	}
+	
+	@Test
+	public void shouldReturn31626WhenGiven10000(){
+		Assertions.assertThat(mult.sumOfAmicableNumbersBelow(10000)).isEqualTo(31626L);
+	}
+	
+	@Test
+	public void shouldReturn871198282WhenGivenNames() throws FileNotFoundException, IOException{
+		Assertions.assertThat(mult.namesScore("names.txt")).isEqualTo(871198282);
+	}
+	
+	@Test
+	public void shouldReturn4179871WhenGiven28123(){
+		Assertions.assertThat(mult.nonAbundantSums(28123)).isEqualTo(4179871);
+	}
+	
+	@Test
+	public void shouldReturn4782WhenGiven1000(){
+		Assertions.assertThat(mult.fibonacciBig(1000)).isEqualTo(4782);
+	}
+	
+
 }
