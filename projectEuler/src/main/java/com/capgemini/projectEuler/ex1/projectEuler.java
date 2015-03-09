@@ -322,18 +322,17 @@ public class projectEuler {
 
 	public long numberOfWays(int grid, int posX, int posY) {
 		long ways = 0;
-		long n = 1;
+		BigDecimal n = new BigDecimal(1);
 		long k = 1;
-		long n_k = 1;
 		for(int i = 1; i <= 2 * grid; i++){
-			n *= i;
+			n = n.multiply(new BigDecimal(i));
 		}
 		for(int i = 1; i <= grid; i++){
 			k *= i;
-			n_k *= i;
 		}
-		k *= n_k;
-		ways = n/k;
+		n = n.divide(new BigDecimal(k));
+		n = n.divide(new BigDecimal(k));
+		ways = Long.parseLong(n.toString());
 		/*if(posX == grid && posY == grid) ways++;
 		if(posX < grid) ways = numberOfWays(grid, posX + 1, posY);
 		if(posY < grid) ways = numberOfWays(grid, posX, posY + 1);*/
@@ -390,6 +389,27 @@ public class projectEuler {
 		}
 		return sum;
 	}
+	
+	public int countingSundays(){
+		int firstSundays = 0, index = 0, year = 1901, firstDay = 1, daysIn1900 = 0;
+		int[] months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+		for(int d : months){
+			daysIn1900 += d;
+		}
+		daysIn1900++;
+		firstDay += (daysIn1900 % 7);
+		while(year < 2001){
+			if(index == 2 && year % 4 == 0 && !(year % 400 == 0)) firstDay += (months[index++] + 1) % 7;
+			else firstDay += months[index++] % 7;
+			if(firstDay > 7) firstDay -= 7;
+			if(firstDay == 7) firstSundays ++;
+			if(index == 12) {
+				year++;
+				index = 0;
+			}
+		}
+		return firstSundays;
+	}
 
 	public int factorialDigitSum(int limit) {
 		BigDecimal result = new BigDecimal(1);
@@ -398,7 +418,6 @@ public class projectEuler {
 		while(limit > 0){
 			result = result.multiply(new BigDecimal(limit--));
 		}
-		//System.out.println("wynik: " + result);
 		numbers = result.toString().toCharArray();
 		for(char n : numbers){
 			answer += Integer.parseInt("" + n);
@@ -503,6 +522,111 @@ public class projectEuler {
 			if(!array[i]) sum += (i);
 		}
 		return sum;
+	}
+
+	public long lexicographicPerm(long count) {
+		long perm = 0;
+		List<Integer> haveLeft = new ArrayList<Integer>();
+		for(int i = 0; i < 10; i++) haveLeft.add(i);
+		int[] arrayPerm = new int[10];
+		long result = 0;
+		int index = 9;
+		int digit = 0;
+		while(index >= 0){
+			result = 0;
+			digit = 0;
+			while(result < count){
+				result = digit * factorial(index);
+				digit++;
+			}
+			digit -= 2;
+			count -= digit * factorial(index);
+			arrayPerm[9 - index] = haveLeft.remove(digit);
+			index--;
+		}
+		for(int i = 0; i < 10; i++){
+			perm += (arrayPerm[i] * Math.pow(10, 9 - i));
+		}
+		return perm;
+	}
+
+	private long factorial(int limit) {
+		long result = 1;
+		while(limit > 0) result *= limit--;
+		return result;
+	}
+
+	public long spiralDiagonals(int dim) {
+		long sum = 1;
+		long limit = dim * dim;
+		long index = 0, step = 2, befor = 1;
+		
+		while(befor < limit){
+			sum += befor + step;
+			befor += step;
+			index++;
+			if(index % 4 == 0) step += 2;
+		}
+		return sum;
+	}
+
+	public int distinctPowers(int limit) {
+		Set<BigDecimal> distincts = new HashSet<BigDecimal>();
+		BigDecimal bD = new BigDecimal(1);
+		BigDecimal lim = new BigDecimal(limit);
+		BigDecimal a = new BigDecimal(2);
+		while(!a.equals(lim.add(bD))){	
+			for(int b = 2; b <= limit; b++){
+				distincts.add(a.pow(b));
+			}
+			a = a.add(bD);
+		}
+		return distincts.size();
+	}
+
+	public int digitPowers(int power) {
+		int sum = 0;
+		int digits = 0, sumOfPowers, number, digit;
+		Integer boarder = (int) Math.pow(9,power);
+		digits = boarder.toString().toCharArray().length;
+		boarder *= digits;
+		digits = boarder.toString().toCharArray().length;
+		boarder *= digits;
+		for(int i = 2; i <= boarder; i++){
+			sumOfPowers = 0;
+			number = i;
+			while(number > 0){
+				digit = number % 10;
+				sumOfPowers += speedPowerForInts(power, digit);
+				number /= 10;
+			}
+			if(sumOfPowers == i) sum += i;
+		}
+		return sum;
+	}
+
+	public int speedPowerForInts(int power, int digit) {
+		int powerDigit;
+		powerDigit = digit;
+		for(int j = 2; j <= power; j++){
+			powerDigit *= digit;
+		}
+		return powerDigit;
+	}
+	
+	public int coinSum(int amount){
+		int[] coins = {1, 2, 5, 10, 20, 50, 100, 200};
+		int m = coins.length;
+		int solutions = 0;
+		solutions = giveMeChange(coins, m, amount);
+		return solutions;
+	}
+
+	private int giveMeChange(int[] coins, int m, int amount) {
+		if(amount == 0) return 1;
+		if(amount < 0) return 0;
+		if(amount > 0 && m <= 0) return 0;
+		return giveMeChange(coins, m - 1, amount) + giveMeChange(coins, m, amount - coins[m - 1]);
 	}
 	
 }
